@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: '行動應用軟體開發',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,92 +30,182 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: '行動應用軟體開發'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+var leftDice = 5;
+var rightDice = 6;
+var compute = 0;
+var player = 0;
+var output="";
+void chang() {
+  leftDice = Random().nextInt(6) + 1;
+  rightDice = Random().nextInt(6) + 1;
+  if(leftDice==rightDice){
+    output="平手";
+  }else if(leftDice>rightDice){
+    output="電腦獲勝";
+    compute++;
+  }else if(leftDice<rightDice){
+    output="玩家獲勝";
+    player++;
   }
+  print("按下左邊骰子 現在值是:$leftDice、$rightDice");
+}
 
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.blue,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Center(child: Text("行動應用軟體開發-期中考")),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          children: [
+            SizedBox(
+              height: 60.0,
+              width: 40.0,
             ),
+            /*
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              "總點數:" + (leftDice + rightDice).toString(),
+              style: TextStyle(fontSize: 30, color: Colors.limeAccent),
+            ),*/
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 50.0,
+                        backgroundColor: Colors.white,
+                        backgroundImage: AssetImage("asset/電腦.jpg"),
+                      ),
+                      Text(
+                        '玩家:電腦玩家',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'myStyle'),
+                      ),
+                      Text(
+                        '分數:$compute',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'myStyle'),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        chang();
+                      });
+                    },
+                    child: Image(
+                      image: AssetImage("asset/dice$leftDice.png"),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Divider(height:10.0,indent:0.0,color: Colors.white,),
+            SizedBox(
+              height: 40.0,
+              width: 40.0,
+            ),
+            Text("擲骰子結果:$output",style: TextStyle(fontSize: 25, color: Colors.white,),),
+            SizedBox(
+              height: 40.0,
+              width: 40.0,
+            ),
+            Divider(height:10.0,indent:0.0,color: Colors.white,),
+              Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 50.0,
+                        backgroundColor: Colors.white,
+                        backgroundImage: AssetImage("asset/玩家.jpg"),
+                      ),
+                      Text(
+                        '玩家:電腦玩家',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'myStyle'),
+                      ),
+                      Text(
+                        '分數:$player',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'myStyle'),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        chang();
+                      });
+                    },
+                    child: Image(
+                      image: AssetImage("asset/dice$rightDice.png"),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 200,
+              height: 60,
+
+              child: TextButton(
+
+                  onPressed: () {
+                    setState(() {
+                      chang();
+                    });
+                  },
+                  child: Text(
+
+                     "擲吧!",
+                    style: TextStyle(fontSize: 25, color: Colors.black45,backgroundColor: Colors.yellow),
+                  )),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
