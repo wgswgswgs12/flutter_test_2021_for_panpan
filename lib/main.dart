@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blue[900],
       appBar: AppBar(
         backgroundColor: Colors.black,
         // Here we take the value from the MyHomePage object that was created by
@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         backgroundImage: AssetImage("asset/玩家.jpg"),
                       ),
                       Text(
-                        '玩家:電腦玩家',
+                        '玩家:朱紹銘',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
@@ -200,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text(
 
                      "擲吧!",
-                    style: TextStyle(fontSize: 25, color: Colors.black45,backgroundColor: Colors.yellow),
+                    style: TextStyle(fontSize: 25, color: Colors.black,backgroundColor: Colors.yellow),
                   )),
             )
           ],
